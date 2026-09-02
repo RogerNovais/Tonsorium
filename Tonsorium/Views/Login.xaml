@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tonsorium.Views.Login">
+    <VerticalStackLayout BackgroundColor="Gray">
+
+        <Frame BackgroundColor="Gray">
+            <VerticalStackLayout >
+
+                <Label Text="Acessar Conta"
+                       VerticalOptions="Center" 
+                       HorizontalOptions="Center"
+                       TextColor="White"
+                       FontSize="35"/>
+
+                <Frame Margin="7"></Frame>
+
+                <Image Source="image_tonsorium.png"
+                       HeightRequest="150"
+                       WidthRequest="150"
+                       HorizontalOptions="Center" />
+
+            </VerticalStackLayout>
+        </Frame>
+
+        <Frame Padding="10"
+               Margin="10"
+               CornerRadius="30"
+               BackgroundColor="Gray">
+            <VerticalStackLayout Spacing="10">
+
+                <Label Text="Nome" />
+                <Entry Placeholder="Digite seu nome"
+                       BackgroundColor="White"
+                       x:Name="NomeEntry" />
+
+
+                <Label Text="E-mail"/>
+                <Entry Placeholder="Digite seu e-mail"  
+                       Keyboard="Email"
+                       x:Name="CampoEmail"
+                       TextChanged="OnEmailTextChanged"
+                       BackgroundColor="White"/>
+                
+                <!-- Aviso de E-mail (Inicia escondido) -->
+                <Label x:Name="AvisoEmail" 
+                       Text="Formato de e-mail inválido (ex: usuario@email.com)" 
+                       TextColor="Red" 
+                       FontSize="12" 
+                       IsVisible="False" />
+                <!--Placeholder = Texto explicativo quando o campo esta vazio-->
+                <!--Keyboard = Tipo de teclado a ser exibido-->
+
+
+                <Label Text="Senha"/>
+                <Entry x:Name="CampoSenha"
+                       Placeholder="Digite sua senha"
+                       IsPassword="True" 
+                       Keyboard="Default" 
+                       BackgroundColor="White"
+                       TextChanged="OnSenhaTextChanged"/>
+
+                <Label x:Name="AvisoSenha" 
+                       Text="A senha deve ter 6+ caracteres, 1 maiúscula, 1 número e 1 caractere especial." 
+                       TextColor="Red" 
+                       FontSize="12" 
+                       IsVisible="False" />
+
+            </VerticalStackLayout>
+        </Frame>
+
+        <Button Text="Entrar" 
+                Clicked="OnBotaoAcaoClicked"
+                HeightRequest="30"
+                WidthRequest="200"
+                BackgroundColor="Black"
+                TextColor="White"
+                TextTransform="Uppercase"
+                FontSize="20"/>
+
+        <Label 
+            Text="Esqueceu a senha?"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+    </VerticalStackLayout>
+
+</ContentPage>
