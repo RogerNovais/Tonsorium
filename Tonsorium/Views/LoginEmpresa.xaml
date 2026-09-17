@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tonsorium.Views.LoginEmpresa">
+
+  <ScrollView>
+
+
+        
+        
+
+        <VerticalStackLayout BackgroundColor="Gray">
+
+            <Frame BackgroundColor="Gray">
+                <VerticalStackLayout >
+
+                    <HorizontalStackLayout>
+                        <Image Source="icone_seta.png"
+                               HeightRequest="30"  
+                               WidthRequest="30"/>
+                            <Image.GestureRecognizers>
+                                <!-- O evento Tapped é disparado quando o usuário clica na imagem -->
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                            </Image.GestureRecognizers>
+
+                        </HorizontalStackLayout>
+
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="15">
+
+                        <Label Text="Acessar Conta"
+                           TextColor="Black"
+                           FontSize="35"
+                           VerticalOptions="Center"/>
+
+                        <Image Source="image_empresa.png"
+                               HeightRequest="90"  
+                               WidthRequest="90"
+                               VerticalOptions="Center"/>
+                    
+                    </HorizontalStackLayout>
+
+
+                    <Image Source="image_tonsorium.png"
+                           HeightRequest="150"
+                           WidthRequest="150"
+                           HorizontalOptions="Center" 
+                           VerticalOptions="Center" 
+                           Margin="40,40,40,0"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame Padding="10"
+                   Margin="5"
+                   CornerRadius="30"
+                   BackgroundColor="Gray">
+                <VerticalStackLayout Spacing="10">
+
+                    <Label Text="Nome" />
+                    <Entry Placeholder="Digite seu nome"
+                           BackgroundColor="White"  
+                           x:Name="NomeEntry"/>
+
+
+                    <Label Text="E-mail"/>
+                    <Entry Placeholder="Digite seu e-mail"  
+                           Keyboard="Email"
+                           x:Name="CampoEmail"
+                           TextChanged="OnEmailTextChanged"
+                           BackgroundColor="White"/>
+
+                    <!-- Aviso de E-mail (Inicia escondido) -->
+                    <Label x:Name="AvisoEmail" 
+                           Text="Formato de e-mail inválido (ex: usuario@email.com)" 
+                           TextColor="Red" 
+                           FontSize="12" 
+                           IsVisible="False" />
+                    <!--Placeholder = Texto explicativo quando o campo esta vazio-->
+                    <!--Keyboard = Tipo de teclado a ser exibido-->
+
+
+                    <Label Text="Senha"/>
+                    <Entry x:Name="CampoSenha"
+                           Placeholder="Digite sua senha"
+                           IsPassword="True" 
+                           Keyboard="Default" 
+                           BackgroundColor="White"
+                           TextChanged="OnSenhaTextChanged"/>
+
+                    <Label x:Name="AvisoSenha" 
+                           Text="A senha deve ter 6+ caracteres, 1 maiúscula, 1 número e 1 caractere especial." 
+                           TextColor="Red" 
+                           FontSize="12" 
+                           IsVisible="False" />
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <Button Text="Entrar" 
+                    Clicked="OnBotaoAcaoClicked"
+                    HeightRequest="30"
+                    WidthRequest="200"
+                    BackgroundColor="Black"
+                    TextColor="White"
+                    TextTransform="Uppercase"
+                    FontSize="20"/>
+
+            <Label 
+                Text="Esqueceu a senha?"
+                TextDecorations="Underline"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+
+            <Label.GestureRecognizers>
+                    <!-- O evento Tapped é disparado quando o usuário clica na imagem -->
+               <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"/>
+            </Label.GestureRecognizers>
+
+        </VerticalStackLayout>
+  </ScrollView>
+</ContentPage>

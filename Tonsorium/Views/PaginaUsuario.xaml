@@ -3,10 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tonsorium.Views.PaginaUsuario"
              Title="PaginaUsuario">
+
+    
+
     <VerticalStackLayout>
         <Label 
             Text="Welcome to .NET MAUI!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+
+        <Path Stroke="White" Data="M0,0 L400,0 C400,600 200,490 200,500 C30,500 0,500 -3,-0 Z" 
+            Fill="Gray"/>
     </VerticalStackLayout>
+    
 </ContentPage>

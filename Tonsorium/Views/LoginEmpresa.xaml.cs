@@ -2,9 +2,9 @@ using System.Text.RegularExpressions;
 
 namespace Tonsorium.Views;
 
-public partial class Login : ContentPage
+public partial class LoginEmpresa : ContentPage
 {
-    public Login()
+    public LoginEmpresa()
     {
         InitializeComponent();
     }
@@ -53,6 +53,16 @@ public partial class Login : ContentPage
         }
 
 
-        await Navigation.PushAsync(new PaginaUsuario());
+        await Navigation.PushAsync(new PaginaEmpresa());
+    }
+
+    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+        Navigation.PushAsync(new BoasVindas());
+    }
+
+    private void TapGestureRecognizer_Tapped_1(object sender, TappedEventArgs e)
+    {
+        Navigation.PushAsync(new PaginaCadastro());
     }
 }

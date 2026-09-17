@@ -1,24 +1,46 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Tonsorium.Views.Login">
+             x:Class="Tonsorium.Views.LoginUsuario">
+
+  <ScrollView>
     <VerticalStackLayout BackgroundColor="Gray">
 
         <Frame BackgroundColor="Gray">
             <VerticalStackLayout >
 
-                <Label Text="Acessar Conta"
-                       VerticalOptions="Center" 
-                       HorizontalOptions="Center"
-                       TextColor="White"
-                       FontSize="35"/>
+                <HorizontalStackLayout>
+                    <Image Source="icone_seta.png"
+                           HeightRequest="30"  
+                           WidthRequest="30"/>
+                    <Image.GestureRecognizers>
+                        <!-- O evento Tapped é disparado quando o usuário clica na imagem -->
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                    </Image.GestureRecognizers>
+                </HorizontalStackLayout>
 
-                <Frame Margin="7"></Frame>
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="15">
+
+                    <Label Text="Acessar Conta"
+                           TextColor="Black"
+                           FontSize="35"
+                           VerticalOptions="Center"/>
+
+
+                    <Image Source="desenho_usuario.png"
+                           HeightRequest="90"  
+                           WidthRequest="90"
+                           VerticalOptions="Center"/>
+
+                </HorizontalStackLayout>
+
 
                 <Image Source="image_tonsorium.png"
                        HeightRequest="150"
                        WidthRequest="150"
-                       HorizontalOptions="Center" />
+                       HorizontalOptions="Center" 
+                       VerticalOptions="Center" 
+                       Margin="40,40,40,0"/>
 
             </VerticalStackLayout>
         </Frame>
@@ -42,7 +64,6 @@
                        TextChanged="OnEmailTextChanged"
                        BackgroundColor="White"/>
                 
-                <!-- Aviso de E-mail (Inicia escondido) -->
                 <Label x:Name="AvisoEmail" 
                        Text="Formato de e-mail inválido (ex: usuario@email.com)" 
                        TextColor="Red" 
@@ -80,8 +101,9 @@
 
         <Label 
             Text="Esqueceu a senha?"
+            TextDecorations="Underline"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
     </VerticalStackLayout>
-
+  </ScrollView>
 </ContentPage>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tonsorium.Views.BoasVindas">
+
+  <ScrollView>
+
+    <VerticalStackLayout>
+        <Grid>
+            <!-- 1º Elemento (Fundo): O Path cinza -->
+            <Path Stroke="White" 
+                  Data="m -1,0 l 430,0 l 0,140 c -150,70 -300,70 -450,0 z" 
+                  Fill="#4B5051" />
+
+            <!-- 2º Elemento (Frente): A logo -->
+            <Image Source="image_tonsorium.png"
+                   HeightRequest="110"
+                   WidthRequest="110"
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Center" 
+                   Margin="40,-80,20,0"/>
+            
+            <Image Source="letra_tonsorium.png"
+                   HeightRequest="200"
+                   WidthRequest="260"
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Center" 
+                   Margin="50,50,20,0"/>
+            
+            <Label Text="O match perfeito para o seu cabelo"
+                   TextColor="White"
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Center"
+                   Margin="48,120,20,0"/>
+
+        </Grid>
+
+        <Label Text="Escolha como deseja acessar"
+               TextColor="Black"
+               HorizontalOptions="Center" 
+               VerticalOptions="Center"
+               FontSize="17.5"
+               Margin="50,5,20,0"/>
+
+        <Border BackgroundColor="White"
+                Stroke="Transparent"
+                StrokeThickness="0"
+                Padding="20"
+                Margin="20">
+            
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10"/>
+            </Border.StrokeShape>
+
+            <Border.Shadow>
+                <Shadow Brush="Black"
+                        Offset="0, 10"
+                        Radius="15"
+                        Opacity="0.3" />
+            </Border.Shadow>
+
+            <VerticalStackLayout Padding="0">
+                <Image Source="image_empresa.png"
+                       HeightRequest="100"
+                       WidthRequest="100"
+                       HorizontalOptions="Center" 
+                       VerticalOptions="Center" 
+                       Margin="40,0,30,0"/>
+
+                <Label Text="Área da empresa"
+                       TextColor="Black"
+                       HorizontalOptions="Center" 
+                       VerticalOptions="Center"
+                       FontSize="22"/>
+
+
+                <Label Text="para donos de barbearia e equipe"
+                       TextColor="Black"
+                       HorizontalOptions="Center" 
+                       VerticalOptions="Center"
+                       Margin="0,20,0,0"
+                       FontSize="17"/>
+
+                <Button Text="Entrar Como Empresa"
+                        Clicked="Button_Clicked"
+                        Margin="20,20,20,0"
+                        BackgroundColor="Black"
+                        FontSize="20"/>
+
+            </VerticalStackLayout>
+        </Border>
+
+        <Border BackgroundColor="White"
+                Stroke="Transparent"
+                StrokeThickness="0"
+                Padding="20"
+                Margin="20">
+
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10"/>
+            </Border.StrokeShape>
+
+            <Border.Shadow>
+                <Shadow Brush="Black"
+                        Offset="0, 10"
+                        Radius="15"
+                        Opacity="0.3" />
+            </Border.Shadow>
+
+            <VerticalStackLayout Padding="0">
+                <Image Source="desenho_usuario.png"
+                       HeightRequest="100"
+                       WidthRequest="100"
+                       HorizontalOptions="Center" 
+                       VerticalOptions="Center" 
+                       Margin="40,0,30,0"/>
+
+                <Label Text="Área do Cliente"
+                       TextColor="Black"
+                       HorizontalOptions="Center" 
+                       VerticalOptions="Center"
+                       FontSize="22"/>
+
+
+                <Label Text="para clientes agendarem serviços"
+                       TextColor="Black"
+                       HorizontalOptions="Center" 
+                       VerticalOptions="Center"
+                       Margin="0,20,0,0"
+                       FontSize="17"/>
+
+                <Button Text="Entrar Como Cliente"
+                        Clicked="Button_Clicked2"
+                        Margin="20,20,20,0"
+                        BackgroundColor="Black"
+                        FontSize="20"/>
+
+            </VerticalStackLayout>
+        </Border>
+
+            <Label Text="Não tem Conta? Cadastre-se"
+                   TextDecorations="Underline"
+                   TextColor="Black"
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Center"
+                   Margin="0,10,0,0"
+                   FontSize="17"/>
+
+        </VerticalStackLayout>
+
+ </ScrollView>
+</ContentPage>
