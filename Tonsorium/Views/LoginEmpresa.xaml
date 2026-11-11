@@ -55,10 +55,22 @@
                    BackgroundColor="Gray">
                 <VerticalStackLayout Spacing="10">
 
-                    <Label Text="Nome" />
-                    <Entry Placeholder="Digite seu nome"
-                           BackgroundColor="White"  
-                           x:Name="NomeEntry"/>
+                    <Border StrokeShape="RoundRectangle 20"
+                            Stroke="White"
+                            StrokeThickness="1"
+                            HeightRequest="50"
+                            WidthRequest="400"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Padding="10,0">
+
+                        <Entry Placeholder="Digite seu nome"
+                               BackgroundColor="White"  
+                               x:Name="NomeEntry"/>
+
+                    </Border>
+
+                        
 
 
                     <Label Text="E-mail"/>

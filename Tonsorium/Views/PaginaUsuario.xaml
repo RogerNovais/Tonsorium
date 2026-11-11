@@ -1,19 +1,127 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Tonsorium.Models"
+             xmlns:local="clr-namespace:Tonsorium.Data"
              x:Class="Tonsorium.Views.PaginaUsuario"
-             Title="PaginaUsuario">
+             x:Name="pagina"
+             Title="TONSORIUM"
+             BackgroundColor="Black">
 
-    
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="16">
 
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+            <!-- Navbar -->
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <HorizontalStackLayout Grid.Column="2" Spacing="24">
+                    <Label Text="Cabelos" TextColor="White" />
+                    <Label Text="Utensílios" TextColor="White" />
+                    <Label Text="Suporte" TextColor="White" />
+                </HorizontalStackLayout>
+            </Grid>
 
-        <Path Stroke="White" Data="M0,0 L400,0 C400,600 200,490 200,500 C30,500 0,500 -3,-0 Z" 
-            Fill="Gray"/>
-    </VerticalStackLayout>
-    
+            <!-- Hero -->
+            <VerticalStackLayout Spacing="8" Padding="0,32">
+                <Label Text="Descubra e agende serviços dos estabelecimentos de sua preferência"
+                       FontSize="24" FontAttributes="Bold" HorizontalTextAlignment="Center"
+                       TextColor="White" />
+                <Label Text="Encontre profissionais, salões e barbearias que combinam com seu estilo e encontre o serviço ideal para você."
+                       HorizontalTextAlignment="Center" TextColor="#cccccc" />
+
+                <!-- Barra de busca -->
+                <Border Stroke="#444444" StrokeShape="RoundRectangle 10" Margin="0,16">
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8" Padding="10">
+                      <Border Stroke="White" StrokeShape="RoundRectangle 18"
+                              BackgroundColor="#f2f2f2" Margin="4">
+                        <Entry x:Name="BuscaEntry" Placeholder="Buscar"
+                               PlaceholderColor='Black'
+                               VerticalOptions="Center" FontSize="15" />
+
+                      </Border>
+                        <Button Grid.Column="1" Text="Buscar" Clicked="OnBuscarClicked"
+                                BackgroundColor="#1a1a1a" TextColor="White"
+                                BorderColor="White" BorderWidth="1" CornerRadius="8"
+                                MinimumHeightRequest="48" MinimumWidthRequest="110"
+                                Padding="20,0" FontSize="15" />
+                    </Grid>
+                </Border>
+
+                <!-- Chips clicáveis -->
+                <FlexLayout Wrap="Wrap" JustifyContent="Center" Direction="Row"
+                            BindableLayout.ItemsSource="{x:Static local:HomeData.Chips}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Border Stroke="#f2f2f2" StrokeShape="RoundRectangle 18"
+                                    BackgroundColor="#f2f2f2" Margin="4">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding FiltrarCommand, Source={x:Reference pagina}}"
+                                        CommandParameter="{Binding}" />
+                                </Border.GestureRecognizers>
+                                <Label Text="{Binding}" FontSize="13" Padding="14,8" TextColor="Black" />
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </VerticalStackLayout>
+
+            <!-- Carrosséis -->
+            <VerticalStackLayout Spacing="8"
+                                 BindableLayout.ItemsSource="{Binding SecoesVisiveis, Source={x:Reference pagina}}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="models:SecaoCarrossel">
+                        <VerticalStackLayout Spacing="8" Padding="0,16">
+                            <Label Text="{Binding Titulo}" FontSize="20" FontAttributes="Bold"
+                                   TextColor="White" />
+                            <Label Text="{Binding Subtitulo}" TextColor="#cccccc" />
+                            <CollectionView ItemsSource="{Binding Itens}" Margin="0,8">
+                                <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout Orientation="Horizontal" ItemSpacing="12" />
+                                </CollectionView.ItemsLayout>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Estabelecimento">
+                                        <!-- Card de perfil do estabelecimento: preto + sombra branca -->
+                                        <Border BackgroundColor="Black"
+                                                Stroke="#555555" StrokeShape="RoundRectangle 12"
+                                                Padding="16" WidthRequest="240">
+                                            <Border.Shadow>
+                                                <Shadow Brush="White" Opacity="0.9"
+                                                        Radius="3.5" Offset="0,0" />
+                                            </Border.Shadow>
+                                            <VerticalStackLayout Spacing="6">
+                                                <Label Text="TONSORIUM" FontSize="10" TextColor="#aaaaaa" />
+                                                <Label Text="{Binding Nome}" FontAttributes="Bold"
+                                                       TextColor="White" />
+                                                <Label TextColor="#f5a623">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="{Binding Estrelas}" />
+                                                            <Span Text=" " />
+                                                            <Span Text="{Binding Avaliacao, StringFormat='{0:0.0}'}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label Text="{Binding Descricao}" TextColor="#cccccc" FontSize="13" />
+                                                <!-- Tag: preto com borda branca -->
+                                                <Border Stroke="White" StrokeShape="RoundRectangle 999"
+                                                        BackgroundColor="Black" HorizontalOptions="Start"
+                                                        Padding="8,4" Margin="0,4,0,0">
+                                                    <Label Text="{Binding Tag}" FontSize="11" TextColor="White" />
+                                                </Border>
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+
+            <!-- Footer -->
+            <Label Text="© 2026 TONSORIUM — Conectando você ao seu estilo."
+                   HorizontalTextAlignment="Center" TextColor="#aaaaaa" Margin="0,24,0,0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
