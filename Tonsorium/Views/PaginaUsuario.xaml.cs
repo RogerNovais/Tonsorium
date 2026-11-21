@@ -19,16 +19,21 @@ public partial class PaginaUsuario : ContentPage
 
     public PaginaUsuario()
     {
-        // 1º: comando criado ANTES do InitializeComponent — os chips fazem bind nele ao carregar o XAML
+        // Comandos ANTES do InitializeComponent
         FiltrarCommand = new Command<string>(AplicarFiltro);
+        AbrirPerfilCommand = new Command<string>(AbrirPerfil);
+        AbrirUtensiliosCommand = new Command(async () => await Navigation.PushAsync(new UtensiliosPage()));
 
         InitializeComponent();
+        BindingContext = this;
 
         todasSecoes = HomeData.Secoes.ToList();
         SecoesVisiveis = todasSecoes;
     }
 
     public ICommand FiltrarCommand { get; }
+    public ICommand AbrirPerfilCommand { get; }
+    public ICommand AbrirUtensiliosCommand { get; }
 
     private List<SecaoCarrossel> secoesVisiveis;
     public List<SecaoCarrossel> SecoesVisiveis
@@ -39,6 +44,12 @@ public partial class PaginaUsuario : ContentPage
             secoesVisiveis = value;
             OnPropertyChanged(nameof(SecoesVisiveis));
         }
+    }
+
+    private void AbrirPerfil(string nomeEstabelecimento)
+    {
+        // Por enquanto todos os cards abrem o Studio Black (único mock no PerfilData).
+        Navigation.PushAsync(new PerfilEstabelecimento());
     }
 
     private void AplicarFiltro(string chipTitulo)

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Tonsorium.Models"
+             x:Class="Tonsorium.Views.UtensiliosPage"
+             Title="Utensílios | TONSORIUM"
+             BackgroundColor="Black">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="20">
+
+            <Button Text="← Voltar" Command="{Binding VoltarCommand}"
+                    BackgroundColor="Transparent" TextColor="White"
+                    BorderColor="#444444" BorderWidth="1" CornerRadius="8"
+                    MinimumHeightRequest="40" Padding="12,0" FontSize="13"
+                    HorizontalOptions="Start" />
+
+            <VerticalStackLayout Spacing="8" Padding="0,16">
+                <Label Text="GUIA TONSORIUM" FontSize="11" FontAttributes="Bold"
+                       TextColor="#f5a623" HorizontalTextAlignment="Center" />
+                <Label Text="Utensílios para cuidar do seu cabelo." FontSize="26" FontAttributes="Bold"
+                       TextColor="White" HorizontalTextAlignment="Center" />
+                <Label Text="Conheça os principais utensílios utilizados nos cuidados capilares, descubra para que servem e aprenda a utilizá-los corretamente."
+                       TextColor="#cccccc" HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+
+            <Border BackgroundColor="Black" Stroke="#555555" StrokeShape="RoundRectangle 12" Padding="20">
+                <Border.Shadow>
+                    <Shadow Brush="White" Opacity="0.8" Radius="10" Offset="0,0" />
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="CONHECIMENTO" FontSize="10" FontAttributes="Bold" TextColor="#f5a623" />
+                    <Label Text="Escolher o utensílio certo faz diferença." FontSize="18"
+                           FontAttributes="Bold" TextColor="White" />
+                    <Label Text="Cada cabelo possui necessidades diferentes. Utilizar o utensílio adequado pode ajudar na finalização, definição, desembaraço e manutenção dos fios."
+                           FontSize="13" TextColor="#cccccc" />
+                </VerticalStackLayout>
+            </Border>
+
+            <VerticalStackLayout Spacing="6">
+                <Label Text="PRINCIPAIS UTENSÍLIOS" FontSize="11" FontAttributes="Bold" TextColor="#f5a623" />
+                <Label Text="Conheça cada um deles" FontSize="20" FontAttributes="Bold" TextColor="White" />
+                <Label Text="Toque nos cartões para entender melhor como cada utensílio pode fazer parte da sua rotina."
+                       FontSize="12" TextColor="#cccccc" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="12" BindableLayout.ItemsSource="{Binding Itens}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="models:Utensilio">
+                        <Border BackgroundColor="Black" Stroke="#555555" StrokeShape="RoundRectangle 12"
+                                Padding="16">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.AlternarCommand}"
+                                    CommandParameter="{Binding Numero}" />
+                            </Border.GestureRecognizers>
+                            <Border.Shadow>
+                                <Shadow Brush="White" Opacity="0.9" Radius="3.5" Offset="0,0" />
+                            </Border.Shadow>
+
+                            <VerticalStackLayout Spacing="12">
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                    <Label Text="{Binding Icone}" FontSize="22" TextColor="#f5a623"
+                                           VerticalOptions="Center" />
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                        <Label FontSize="10" TextColor="#aaaaaa">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding Numero}" />
+                                                    <Span Text=" · " />
+                                                    <Span Text="{Binding Categoria}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Text="{Binding Nome}" FontSize="15" FontAttributes="Bold" TextColor="White" />
+                                        <Label Text="{Binding Descricao}" FontSize="12" TextColor="#cccccc" />
+                                    </VerticalStackLayout>
+                                    <Label Grid.Column="2" Text="{Binding Sinal}" FontSize="24"
+                                           FontAttributes="Bold" TextColor="#f5a623" VerticalOptions="Center" />
+                                </Grid>
+
+                                <VerticalStackLayout Spacing="10" IsVisible="{Binding Expandido}">
+                                    <BoxView HeightRequest="1" Color="#333333" />
+
+                                    <Label Text="PARA QUE SERVE?" FontSize="10" FontAttributes="Bold" TextColor="#f5a623" />
+                                    <Label Text="{Binding ParaQueServe}" FontSize="13" TextColor="#cccccc" />
+
+                                    <Label Text="COMO USAR?" FontSize="10" FontAttributes="Bold" TextColor="#f5a623" />
+                                    <Label Text="{Binding ComoUsar}" FontSize="13" TextColor="#cccccc" />
+
+                                    <Border BackgroundColor="#111111" Stroke="#333333"
+                                            StrokeShape="RoundRectangle 10" Padding="12">
+                                        <VerticalStackLayout Spacing="4">
+                                            <Label Text="💡 Dica" FontSize="11" FontAttributes="Bold" TextColor="#f5a623" />
+                                            <Label Text="{Binding Dica}" FontSize="12" TextColor="#cccccc" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </VerticalStackLayout>
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="8" Padding="0,8">
+                <Label Text="DICAS TONSORIUM" FontSize="11" FontAttributes="Bold" TextColor="#f5a623" />
+                <Label Text="Pequenos cuidados, grandes diferenças." FontSize="20" FontAttributes="Bold" TextColor="White" />
+                <Label Text="Mais importante do que ter vários utensílios é saber utilizá-los corretamente e escolher aqueles que fazem sentido para o seu tipo de cabelo."
+                       FontSize="12" TextColor="#cccccc" />
+
+                <VerticalStackLayout Spacing="10" Margin="0,8,0,0" BindableLayout.ItemsSource="{Binding Dicas}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:DicaUtensilio">
+                            <Border BackgroundColor="#111111" Stroke="#333333" StrokeShape="RoundRectangle 10" Padding="16">
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                    <Label Text="{Binding Numero}" FontSize="13" FontAttributes="Bold"
+                                           TextColor="#f5a623" VerticalOptions="Start" />
+                                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                        <Label Text="{Binding Titulo}" FontSize="14" FontAttributes="Bold" TextColor="White" />
+                                        <Label Text="{Binding Texto}" FontSize="12" TextColor="#cccccc" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <Button Text="Voltar para o início" Command="{Binding VoltarCommand}"
+                    BackgroundColor="White" TextColor="Black" CornerRadius="8"
+                    MinimumHeightRequest="48" FontSize="15" Margin="0,8,0,0" />
+
+            <VerticalStackLayout Spacing="4" Padding="0,16">
+                <Label Text="TONSORIUM" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="Center" />
+                <Label Text="Conectando você ao seu estilo." FontSize="12" TextColor="#aaaaaa"
+                       HorizontalTextAlignment="Center" />
+                <Label Text="© 2026 TONSORIUM. Todos os direitos reservados." FontSize="11" TextColor="#aaaaaa"
+                       HorizontalTextAlignment="Center" Margin="0,8,0,0" />
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

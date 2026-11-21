@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Tonsorium.Models"
+             x:Class="Tonsorium.Views.PerfilEstabelecimento"
+             x:DataType="models:PerfilEstabelecimento"
+             Title="Studio Black | TONSORIUM"
+             BackgroundColor="Black">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="16">
+
+            <!-- Topo: voltar + logo -->
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <Button Text="← Voltar" Clicked="OnVoltarClicked"
+                        BackgroundColor="Transparent" TextColor="White"
+                        BorderColor="#444444" BorderWidth="1" CornerRadius="8"
+                        MinimumHeightRequest="40" Padding="14,0" FontSize="14" />
+                <Label Grid.Column="2" Text="TONSORIUM" TextColor="White"
+                       FontAttributes="Bold" VerticalOptions="Center" />
+            </Grid>
+
+            <!-- Cabeçalho do perfil (campo principal, com glow branco) -->
+            <Border BackgroundColor="Black" Stroke="#555555" StrokeShape="RoundRectangle 12" Padding="20">
+                <Border.Shadow>
+                    <Shadow Brush="White" Opacity="0.9" Radius="15" Offset="0,0" />
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="{Binding Categoria}" FontSize="11" TextColor="#aaaaaa" />
+                    <Label Text="{Binding Nome}" FontSize="26" FontAttributes="Bold" TextColor="White" />
+                    <Label TextColor="#f5a623">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding Estrelas}" />
+                                <Span Text=" " />
+                                <Span Text="{Binding Avaliacao, StringFormat='{0:0.0}'}" />
+                                <Span Text=" (" TextColor="#aaaaaa" />
+                                <Span Text="{Binding TotalAvaliacoes}" TextColor="#aaaaaa" />
+                                <Span Text=" avaliações)" TextColor="#aaaaaa" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Text="{Binding Descricao}" TextColor="#cccccc" FontSize="14" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Campos de perfil: localização, funcionamento, especialidades -->
+            <VerticalStackLayout Spacing="12">
+
+                <Border BackgroundColor="Black" Stroke="#555555" StrokeShape="RoundRectangle 12" Padding="16">
+                    <Border.Shadow>
+                        <Shadow Brush="White" Opacity="0.8" Radius="12" Offset="0,0" />
+                    </Border.Shadow>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                        <Label Text="⌖" FontSize="22" TextColor="#f5a623" VerticalOptions="Start" />
+                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                            <Label Text="LOCALIZAÇÃO" FontSize="10" TextColor="#aaaaaa" />
+                            <Label Text="{Binding LocalizacaoEndereco}" TextColor="White" FontSize="15" />
+                            <Label Text="{Binding LocalizacaoCidade}" TextColor="#cccccc" FontSize="13" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <Border BackgroundColor="Black" Stroke="#555555" StrokeShape="RoundRectangle 12" Padding="16">
+                    <Border.Shadow>
+                        <Shadow Brush="White" Opacity="0.8" Radius="12" Offset="0,0" />
+                    </Border.Shadow>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                        <Label Text="◷" FontSize="22" TextColor="#f5a623" VerticalOptions="Start" />
+                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                            <Label Text="FUNCIONAMENTO" FontSize="10" TextColor="#aaaaaa" />
+                            <Label Text="{Binding FuncionamentoDias}" TextColor="White" FontSize="15" />
+                            <Label Text="{Binding FuncionamentoHoras}" TextColor="#cccccc" FontSize="13" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <Border BackgroundColor="Black" Stroke="#555555" StrokeShape="RoundRectangle 12" Padding="16">
+                    <Border.Shadow>
+                        <Shadow Brush="White" Opacity="0.8" Radius="12" Offset="0,0" />
+                    </Border.Shadow>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                        <Label Text="✦" FontSize="22" TextColor="#f5a623" VerticalOptions="Start" />
+                        <VerticalStackLayout Grid.Column="1" Spacing="6">
+                            <Label Text="ESPECIALIDADES" FontSize="10" TextColor="#aaaaaa" />
+                            <FlexLayout Wrap="Wrap" Direction="Row"
+                                        BindableLayout.ItemsSource="{Binding Especialidades}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="x:String">
+                                        <Border Stroke="#333333" StrokeShape="RoundRectangle 999"
+                                                BackgroundColor="#1a1a1a" Margin="0,0,6,6" Padding="10,5">
+                                            <Label Text="{Binding}" FontSize="11" TextColor="White" />
+                                        </Border>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </FlexLayout>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+            </VerticalStackLayout>
+
+            <!-- 01 — Sobre o estabelecimento -->
+            <VerticalStackLayout Spacing="8" Padding="0,8">
+                <Label Text="01" FontSize="12" FontAttributes="Bold" TextColor="#f5a623" />
+                <Label Text="SOBRE O ESTABELECIMENTO" FontSize="17" FontAttributes="Bold" TextColor="White" />
+                <Label Text="{Binding SobreTitulo}" FontSize="15" TextColor="#cccccc" />
+                <Label Text="{Binding SobreParagrafo1}" TextColor="#cccccc" FontSize="13" />
+                <Label Text="{Binding SobreParagrafo2}" TextColor="#cccccc" FontSize="13" />
+            </VerticalStackLayout>
+
+            <!-- 02 — Serviços -->
+            <VerticalStackLayout Spacing="8" Padding="0,8">
+                <Label Text="02" FontSize="12" FontAttributes="Bold" TextColor="#f5a623" />
+                <Label Text="SERVIÇOS" FontSize="17" FontAttributes="Bold" TextColor="White" />
+                <Label Text="Escolha seu estilo." TextColor="#cccccc" FontSize="13" />
+
+                <VerticalStackLayout Spacing="10" BindableLayout.ItemsSource="{Binding Servicos}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:Servico">
+                            <Border BackgroundColor="#111111" Stroke="#333333" StrokeShape="RoundRectangle 10" Padding="16">
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                    <Label Text="{Binding Numero}" FontSize="13" FontAttributes="Bold"
+                                           TextColor="#aaaaaa" VerticalOptions="Start" />
+                                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                        <Label Text="{Binding Nome}" FontSize="15" FontAttributes="Bold" TextColor="White" />
+                                        <Label Text="{Binding Descricao}" FontSize="12" TextColor="#cccccc" />
+                                        <Label Text="{Binding Duracao}" FontSize="11" TextColor="#aaaaaa" />
+                                    </VerticalStackLayout>
+                                    <Label Grid.Column="2" Text="{Binding Preco}" FontSize="15"
+                                           FontAttributes="Bold" TextColor="#f5a623" VerticalOptions="Start" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <!-- 03 — Nossa equipe -->
+            <VerticalStackLayout Spacing="8" Padding="0,8">
+                <Label Text="03" FontSize="12" FontAttributes="Bold" TextColor="#f5a623" />
+                <Label Text="NOSSA EQUIPE" FontSize="17" FontAttributes="Bold" TextColor="White" />
+                <Label Text="Profissionais que entendem você." TextColor="#cccccc" FontSize="13" />
+
+                <CollectionView ItemsSource="{Binding Equipe}" Margin="0,8">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Horizontal" ItemSpacing="12" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Profissional">
+                            <Border BackgroundColor="#111111" Stroke="#333333" StrokeShape="RoundRectangle 12"
+                                    Padding="16" WidthRequest="220">
+                                <VerticalStackLayout Spacing="8">
+                                    <Border BackgroundColor="Black" Stroke="#f5a623" StrokeShape="RoundRectangle 999"
+                                            WidthRequest="48" HeightRequest="48" HorizontalOptions="Start">
+                                        <Label Text="{Binding Iniciais}" TextColor="White" FontAttributes="Bold"
+                                               HorizontalOptions="Center" VerticalOptions="Center" FontSize="14" />
+                                    </Border>
+                                    <Label Text="{Binding Nome}" FontSize="14" FontAttributes="Bold" TextColor="White" />
+                                    <Label Text="{Binding Cargo}" FontSize="12" TextColor="#cccccc" />
+                                    <Label Text="{Binding Tags}" FontSize="11" TextColor="#aaaaaa" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+            <!-- CTA de agendamento -->
+            <Border BackgroundColor="#111111" Stroke="#333333" StrokeShape="RoundRectangle 12" Padding="24" Margin="0,8">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="SEU PRÓXIMO VISUAL COMEÇA AQUI" FontSize="11" TextColor="#aaaaaa"
+                           HorizontalTextAlignment="Center" />
+                    <Label Text="Pronto para transformar seu estilo?" FontSize="20" FontAttributes="Bold"
+                           TextColor="White" HorizontalTextAlignment="Center" />
+                    <Label Text="Escolha o serviço, profissional e horário que mais combinam com você."
+                           FontSize="13" TextColor="#cccccc" HorizontalTextAlignment="Center" />
+                    <Button Text="Agendar horário →" Clicked="OnAgendarClicked"
+                            BackgroundColor="White" TextColor="Black" CornerRadius="8"
+                            MinimumHeightRequest="48" FontSize="15" Margin="0,8,0,0" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Footer -->
+            <VerticalStackLayout Spacing="4" Padding="0,16">
+                <Label Text="TONSORIUM" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="Center" />
+                <Label Text="Conectando você ao seu próximo estilo." FontSize="12" TextColor="#aaaaaa"
+                       HorizontalTextAlignment="Center" />
+                <Label Text="© 2026 TONSORIUM. Todos os direitos reservados." FontSize="11" TextColor="#aaaaaa"
+                       HorizontalTextAlignment="Center" Margin="0,8,0,0" />
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

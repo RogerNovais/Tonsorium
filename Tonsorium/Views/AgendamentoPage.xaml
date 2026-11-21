@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Tonsorium.Models"
+             x:Class="Tonsorium.Views.AgendamentoPage"
+             Title="Agendamento | Studio Black - TONSORIUM"
+             BackgroundColor="Black">
+
+    <Grid RowDefinitions="Auto,*,Auto" Padding="24">
+
+        <!-- TOPO: voltar para o perfil + logo -->
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto">
+            <Button Text="← Studio Black" Clicked="OnVoltarPerfilClicked"
+                    BackgroundColor="Transparent" TextColor="White"
+                    BorderColor="#444444" BorderWidth="1" CornerRadius="8"
+                    MinimumHeightRequest="40" Padding="12,0" FontSize="13" />
+            <Label Grid.Column="2" Text="TONSORIUM" TextColor="White"
+                   FontAttributes="Bold" VerticalOptions="Center" />
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="0,16" Spacing="16">
+
+                <!-- Stepper 1-5 -->
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Border Stroke="{Binding Circulo1Cor}" StrokeShape="RoundRectangle 999"
+                            WidthRequest="28" HeightRequest="28" BackgroundColor="Black">
+                        <Label Text="1" FontSize="12" HorizontalOptions="Center" VerticalOptions="Center"
+                               TextColor="{Binding Circulo1Cor}" />
+                    </Border>
+                    <Label Text="Serviço" FontSize="12" TextColor="#888888" VerticalOptions="Center" />
+                    <Border Stroke="{Binding Circulo2Cor}" StrokeShape="RoundRectangle 999"
+                            WidthRequest="28" HeightRequest="28" BackgroundColor="Black">
+                        <Label Text="2" FontSize="12" HorizontalOptions="Center" VerticalOptions="Center"
+                               TextColor="{Binding Circulo2Cor}" />
+                    </Border>
+                    <Label Text="Profissional" FontSize="12" TextColor="#888888" VerticalOptions="Center" />
+                    <Border Stroke="{Binding Circulo3Cor}" StrokeShape="RoundRectangle 999"
+                            WidthRequest="28" HeightRequest="28" BackgroundColor="Black">
+                        <Label Text="3" FontSize="12" HorizontalOptions="Center" VerticalOptions="Center"
+                               TextColor="{Binding Circulo3Cor}" />
+                    </Border>
+                    <Label Text="Data" FontSize="12" TextColor="#888888" VerticalOptions="Center" />
+                    <Border Stroke="{Binding Circulo4Cor}" StrokeShape="RoundRectangle 999"
+                            WidthRequest="28" HeightRequest="28" BackgroundColor="Black">
+                        <Label Text="4" FontSize="12" HorizontalOptions="Center" VerticalOptions="Center"
+                               TextColor="{Binding Circulo4Cor}" />
+                    </Border>
+                    <Label Text="Horário" FontSize="12" TextColor="#888888" VerticalOptions="Center" />
+                    <Border Stroke="{Binding Circulo5Cor}" StrokeShape="RoundRectangle 999"
+                            WidthRequest="28" HeightRequest="28" BackgroundColor="Black">
+                        <Label Text="5" FontSize="12" HorizontalOptions="Center" VerticalOptions="Center"
+                               TextColor="{Binding Circulo5Cor}" />
+                    </Border>
+                    <Label Text="Resumo" FontSize="12" TextColor="#888888" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <!-- ETAPA 1: SERVIÇO -->
+                <VerticalStackLayout Spacing="10" IsVisible="{Binding Etapa1Visivel}">
+                    <Label Text="01 · SERVIÇO" FontSize="11" FontAttributes="Bold" TextColor="#f5a623" />
+                    <Label Text="O que você deseja fazer?" FontSize="18" FontAttributes="Bold" TextColor="White" />
+                    <Label Text="Escolha o serviço que melhor combina com o resultado que você procura."
+                           FontSize="12" TextColor="#cccccc" />
+                    <VerticalStackLayout Spacing="10" BindableLayout.ItemsSource="{Binding OpcoesServico}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:OpcaoServico">
+                                <Border Stroke="{Binding CorBorda}" StrokeShape="RoundRectangle 10"
+                                        BackgroundColor="{Binding CorFundo}" Padding="16">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SelecionarServicoCommand}"
+                                            CommandParameter="{Binding Servico.Nome}" />
+                                    </Border.GestureRecognizers>
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                        <Label Text="{Binding Icone}" FontSize="20" TextColor="#f5a623"
+                                               VerticalOptions="Center" />
+                                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                            <Label Text="{Binding Servico.Nome}" FontSize="15"
+                                                   FontAttributes="Bold" TextColor="White" />
+                                            <Label Text="{Binding Servico.Descricao}" FontSize="12" TextColor="#cccccc" />
+                                        </VerticalStackLayout>
+                                        <VerticalStackLayout Grid.Column="2" Spacing="2">
+                                            <Label Text="{Binding Servico.Duracao}" FontSize="11"
+                                                   TextColor="#aaaaaa" HorizontalTextAlignment="End" />
+                                            <Label Text="{Binding Servico.Preco}" FontSize="14"
+                                                   FontAttributes="Bold" TextColor="#f5a623"
+                                                   HorizontalTextAlignment="End" />
+                                            <Label Text="{Binding Marcador}" FontSize="11" FontAttributes="Bold"
+                                                   TextColor="#f5a623" HorizontalTextAlignment="End" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- ETAPA 2: PROFISSIONAL -->
+                <VerticalStackLayout Spacing="10" IsVisible="{Binding Etapa2Visivel}">
+                    <Label Text="02 · PROFISSIONAL" FontSize="11" FontAttributes="Bold" TextColor="#f5a623" />
+                    <Label Text="Quem você gostaria que atendesse você?" FontSize="18" FontAttributes="Bold" TextColor="White" />
+                    <Label Text="Escolha um profissional do Studio Black." FontSize="12" TextColor="#cccccc" />
+                    <VerticalStackLayout Spacing="10" BindableLayout.ItemsSource="{Binding OpcoesProfissionais}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:OpcaoProfissional">
+                                <Border Stroke="{Binding CorBorda}" StrokeShape="RoundRectangle 10"
+                                        BackgroundColor="{Binding CorFundo}" Padding="16">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SelecionarProfissionalCommand}"
+                                            CommandParameter="{Binding Profissional.Nome}" />
+                                    </Border.GestureRecognizers>
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                                        <Border BackgroundColor="Black" Stroke="#f5a623" StrokeShape="RoundRectangle 999"
+                                                WidthRequest="44" HeightRequest="44">
+                                            <Label Text="{Binding Profissional.Iniciais}" TextColor="White"
+                                                   FontAttributes="Bold" FontSize="13"
+                                                   HorizontalOptions="Center" VerticalOptions="Center" />
+                                        </Border>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                            <Label Text="{Binding Profissional.Nome}" FontSize="15"
+                                                   FontAttributes="Bold" TextColor="White" />
+                                            <Label TextColor="#cccccc" FontSize="13">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding Profissional.Cargo}" />
+                                                        <Span Text=" " />
+                                                        <Span Text="{Binding Profissional.Tags}" TextColor="#f5a623" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                        </VerticalStackLayout>
+                                        <Label Grid.Column="2" Text="{Binding Marcador}" TextColor="#f5a623"
+                                               FontSize="16" FontAttributes="Bold" VerticalOptions="Center" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- ETAPA 3: DATA (calendário) -->
+                <VerticalStackLayout Spacing="10" IsVisible="{Binding Etapa3Visivel}">
+                    <Label Text="03 · DATA" FontSize="11" FontAttributes="Bold" TextColor="#f5a623" />
+                    <Label Text="Quando você quer ser atendido?" FontSize="18" FontAttributes="Bold" TextColor="White" />
+                    <Label Text="Selecione uma data disponível para o atendimento." FontSize="12" TextColor="#cccccc" />
+
+                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,8">
+                        <Button Text="←" Command="{Binding MesAnteriorCommand}"
+                                BackgroundColor="#111111" TextColor="White" CornerRadius="8"
+                                MinimumWidthRequest="40" MinimumHeightRequest="40" />
+                        <Label Grid.Column="1" Text="{Binding MesAnoTitulo}" FontSize="16" FontAttributes="Bold"
+                               TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center" />
+                        <Button Grid.Column="2" Text="→" Command="{Binding MesSeguinteCommand}"
+                                BackgroundColor="#111111" TextColor="White" CornerRadius="8"
+                                MinimumWidthRequest="40" MinimumHeightRequest="40" />
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,*,*,*,*,*,*">
+                        <Label Grid.Column="0" Text="DOM" FontSize="10" TextColor="#888888" HorizontalTextAlignment="Center" />
+                        <Label Grid.Column="1" Text="SEG" FontSize="10" TextColor="#888888" HorizontalTextAlignment="Center" />
+                        <Label Grid.Column="2" Text="TER" FontSize="10" TextColor="#888888" HorizontalTextAlignment="Center" />
+                        <Label Grid.Column="3" Text="QUA" FontSize="10" TextColor="#888888" HorizontalTextAlignment="Center" />
+                        <Label Grid.Column="4" Text="QUI" FontSize="10" TextColor="#888888" HorizontalTextAlignment="Center" />
+                        <Label Grid.Column="5" Text="SEX" FontSize="10" TextColor="#888888" HorizontalTextAlignment="Center" />
+                        <Label Grid.Column="6" Text="SÁB" FontSize="10" TextColor="#888888" HorizontalTextAlignment="Center" />
+                    </Grid>
+
+                    <FlexLayout Wrap="Wrap" Direction="Row" BindableLayout.ItemsSource="{Binding DiasVisiveis}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:DiaCalendario">
+                                <Border WidthRequest="42" HeightRequest="42" Margin="2"
+                                        Stroke="{Binding CorBorda}" StrokeShape="RoundRectangle 10"
+                                        BackgroundColor="{Binding CorFundo}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SelecionarDiaCommand}"
+                                            CommandParameter="{Binding Parametro}" />
+                                    </Border.GestureRecognizers>
+                                    <Label Text="{Binding Numero}" FontSize="13"
+                                           HorizontalOptions="Center" VerticalOptions="Center"
+                                           TextColor="{Binding CorTexto}" />
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </VerticalStackLayout>
+
+                <!-- ETAPA 4: HORÁRIO -->
+                <VerticalStackLayout Spacing="10" IsVisible="{Binding Etapa4Visivel}">
+                    <Label Text="04 · HORÁRIO" FontSize="11" FontAttributes="Bold" TextColor="#f5a623" />
+                    <Label Text="Escolha o melhor horário." FontSize="18" FontAttributes="Bold" TextColor="White" />
+                    <Label Text="{Binding LegendaHorarios}" FontSize="12" TextColor="#cccccc" />
+                    <Label TextColor="#aaaaaa" FontSize="12">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="DATA SELECIONADA " />
+                                <Span Text="{Binding DataTexto}" TextColor="White" FontAttributes="Bold" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <FlexLayout Wrap="Wrap" Direction="Row" BindableLayout.ItemsSource="{Binding HorariosVisiveis}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:OpcaoHorario">
+                                <Border WidthRequest="72" HeightRequest="42" Margin="3"
+                                        Stroke="{Binding CorBorda}" StrokeShape="RoundRectangle 8"
+                                        BackgroundColor="{Binding CorFundo}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SelecionarHorarioCommand}"
+                                            CommandParameter="{Binding Hora}" />
+                                    </Border.GestureRecognizers>
+                                    <Label Text="{Binding Hora}" FontSize="13"
+                                           HorizontalOptions="Center" VerticalOptions="Center"
+                                           TextColor="{Binding CorTexto}" />
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </VerticalStackLayout>
+
+                <!-- ETAPA 5: RESUMO -->
+                <VerticalStackLayout Spacing="10" IsVisible="{Binding Etapa5Visivel}">
+                    <Label Text="05 · RESUMO" FontSize="11" FontAttributes="Bold" TextColor="#f5a623" />
+                    <Label Text="Confira seu agendamento." FontSize="18" FontAttributes="Bold" TextColor="White" />
+                    <Label Text="Verifique todas as informações antes de confirmar." FontSize="12" TextColor="#cccccc" />
+
+                    <Border BackgroundColor="Black" Stroke="#555555" StrokeShape="RoundRectangle 12" Padding="20">
+                        <Border.Shadow>
+                            <Shadow Brush="White" Opacity="0.8" Radius="12" Offset="0,0" />
+                        </Border.Shadow>
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="TONSORIUM RESUMO DO AGENDAMENTO" FontSize="10" TextColor="#aaaaaa" />
+                            <Label Text="Studio Black" FontSize="18" FontAttributes="Bold" TextColor="White" />
+                            <Label Text="Av. Paulista, 1450 · São Paulo - SP" FontSize="12" TextColor="#cccccc" />
+                            <Label FontSize="13">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="PROFISSIONAL   " TextColor="#888888" />
+                                        <Span Text="{Binding ResumoProfissional}" TextColor="White" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label FontSize="13">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="DATA   " TextColor="#888888" />
+                                        <Span Text="{Binding ResumoData}" TextColor="White" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label FontSize="13">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="HORÁRIO   " TextColor="#888888" />
+                                        <Span Text="{Binding ResumoHorario}" TextColor="White" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label FontSize="13">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding ResumoServico}" TextColor="White" />
+                                        <Span Text="   Serviço selecionado" TextColor="#888888" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label FontSize="16" FontAttributes="Bold" TextColor="#f5a623">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="TOTAL   " TextColor="#888888" FontAttributes="None" />
+                                        <Span Text="{Binding ResumoTotal}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Button Text="Confirmar agendamento →" Command="{Binding ConfirmarCommand}"
+                            BackgroundColor="White" TextColor="Black" CornerRadius="8"
+                            MinimumHeightRequest="48" FontSize="15" Margin="0,8,0,0" />
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Barra inferior: Voltar / contador / Avançar -->
+        <Grid Grid.Row="2" ColumnDefinitions="Auto,*,Auto" Margin="0,8,0,0">
+            <Button Text="← Voltar" Command="{Binding VoltarEtapaCommand}"
+                    BackgroundColor="#111111" TextColor="White"
+                    BorderColor="#333333" BorderWidth="1" CornerRadius="8"
+                    MinimumHeightRequest="44" Padding="16,0" />
+            <Label Grid.Column="1" Text="{Binding ContadorEtapas}" FontSize="13" TextColor="#aaaaaa"
+                   HorizontalTextAlignment="Center" VerticalOptions="Center" />
+            <Button Grid.Column="2" Text="Avançar →" Command="{Binding AvancarCommand}"
+                    BackgroundColor="White" TextColor="Black" CornerRadius="8"
+                    MinimumHeightRequest="44" Padding="16,0" FontAttributes="Bold" />
+        </Grid>
+
+    </Grid>
+</ContentPage>
+                                    

@@ -4,7 +4,6 @@
              xmlns:models="clr-namespace:Tonsorium.Models"
              xmlns:local="clr-namespace:Tonsorium.Data"
              x:Class="Tonsorium.Views.PaginaUsuario"
-             x:Name="pagina"
              Title="TONSORIUM"
              BackgroundColor="Black">
 
@@ -13,9 +12,14 @@
 
             <!-- Navbar -->
             <Grid ColumnDefinitions="Auto,*,Auto">
+                <Label Text="TONSORIUM" TextColor="White" FontAttributes="Bold" />
                 <HorizontalStackLayout Grid.Column="2" Spacing="24">
                     <Label Text="Cabelos" TextColor="White" />
-                    <Label Text="Utensílios" TextColor="White" />
+                    <Label Text="Utensílios" TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AbrirUtensiliosCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
                     <Label Text="Suporte" TextColor="White" />
                 </HorizontalStackLayout>
             </Grid>
@@ -31,13 +35,12 @@
                 <!-- Barra de busca -->
                 <Border Stroke="#444444" StrokeShape="RoundRectangle 10" Margin="0,16">
                     <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8" Padding="10">
-                      <Border Stroke="White" StrokeShape="RoundRectangle 18"
-                              BackgroundColor="#f2f2f2" Margin="4">
-                        <Entry x:Name="BuscaEntry" Placeholder="Buscar"
-                               PlaceholderColor='Black'
-                               VerticalOptions="Center" FontSize="15" />
-
-                      </Border>
+                        <Border Stroke="White" StrokeShape="RoundRectangle 18"
+                                BackgroundColor="#f2f2f2" Margin="4">
+                            <Entry x:Name="BuscaEntry" Placeholder="Buscar"
+                                   PlaceholderColor="Black"
+                                   VerticalOptions="Center" FontSize="15" />
+                        </Border>
                         <Button Grid.Column="1" Text="Buscar" Clicked="OnBuscarClicked"
                                 BackgroundColor="#1a1a1a" TextColor="White"
                                 BorderColor="White" BorderWidth="1" CornerRadius="8"
@@ -55,7 +58,7 @@
                                     BackgroundColor="#f2f2f2" Margin="4">
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer
-                                        Command="{Binding FiltrarCommand, Source={x:Reference pagina}}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.FiltrarCommand}"
                                         CommandParameter="{Binding}" />
                                 </Border.GestureRecognizers>
                                 <Label Text="{Binding}" FontSize="13" Padding="14,8" TextColor="Black" />
@@ -67,7 +70,7 @@
 
             <!-- Carrosséis -->
             <VerticalStackLayout Spacing="8"
-                                 BindableLayout.ItemsSource="{Binding SecoesVisiveis, Source={x:Reference pagina}}">
+                                 BindableLayout.ItemsSource="{Binding SecoesVisiveis}">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="models:SecaoCarrossel">
                         <VerticalStackLayout Spacing="8" Padding="0,16">
@@ -80,10 +83,14 @@
                                 </CollectionView.ItemsLayout>
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="models:Estabelecimento">
-                                        <!-- Card de perfil do estabelecimento: preto + sombra branca -->
                                         <Border BackgroundColor="Black"
                                                 Stroke="#555555" StrokeShape="RoundRectangle 12"
                                                 Padding="16" WidthRequest="240">
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.AbrirPerfilCommand}"
+                                                    CommandParameter="{Binding Nome}" />
+                                            </Border.GestureRecognizers>
                                             <Border.Shadow>
                                                 <Shadow Brush="White" Opacity="0.9"
                                                         Radius="3.5" Offset="0,0" />
@@ -102,7 +109,6 @@
                                                     </Label.FormattedText>
                                                 </Label>
                                                 <Label Text="{Binding Descricao}" TextColor="#cccccc" FontSize="13" />
-                                                <!-- Tag: preto com borda branca -->
                                                 <Border Stroke="White" StrokeShape="RoundRectangle 999"
                                                         BackgroundColor="Black" HorizontalOptions="Start"
                                                         Padding="8,4" Margin="0,4,0,0">
