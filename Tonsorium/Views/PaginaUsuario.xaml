@@ -14,7 +14,11 @@
             <Grid ColumnDefinitions="Auto,*,Auto">
                 <Label Text="TONSORIUM" TextColor="White" FontAttributes="Bold" />
                 <HorizontalStackLayout Grid.Column="2" Spacing="24">
-                    <Label Text="Cabelos" TextColor="White" />
+                    <Label Text="Cabelos" TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AbrirCabelosCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
                     <Label Text="Utensílios" TextColor="White">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding AbrirUtensiliosCommand}" />

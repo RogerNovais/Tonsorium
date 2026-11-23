@@ -23,6 +23,7 @@ public partial class PaginaUsuario : ContentPage
         FiltrarCommand = new Command<string>(AplicarFiltro);
         AbrirPerfilCommand = new Command<string>(AbrirPerfil);
         AbrirUtensiliosCommand = new Command(async () => await Navigation.PushAsync(new UtensiliosPage()));
+        AbrirCabelosCommand = new Command(async () => await Navigation.PushAsync(new CabelosPage()));
 
         InitializeComponent();
         BindingContext = this;
@@ -34,6 +35,7 @@ public partial class PaginaUsuario : ContentPage
     public ICommand FiltrarCommand { get; }
     public ICommand AbrirPerfilCommand { get; }
     public ICommand AbrirUtensiliosCommand { get; }
+    public ICommand AbrirCabelosCommand { get; }
 
     private List<SecaoCarrossel> secoesVisiveis;
     public List<SecaoCarrossel> SecoesVisiveis
