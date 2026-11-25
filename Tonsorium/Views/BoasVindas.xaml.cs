@@ -16,4 +16,9 @@ public partial class BoasVindas : ContentPage
     {
         Navigation.PushAsync(new LoginUsuario());
     }
+
+    private void TapGestureRecognizer_Tapped_1(object sender, TappedEventArgs e)
+    {
+        Navigation.PushAsync(new PaginaCadastro());
+    }
 }

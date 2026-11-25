@@ -3,14 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:Tonsorium.Models"
              x:Class="Tonsorium.Views.AgendamentoPage"
-             Title="Agendamento | Studio Black - TONSORIUM"
+             Title="{Binding Perfil.Nome, StringFormat='Agendamento | {0} - TONSORIUM'}"
              BackgroundColor="Black">
 
     <Grid RowDefinitions="Auto,*,Auto" Padding="24">
 
         <!-- TOPO: voltar para o perfil + logo -->
         <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto">
-            <Button Text="← Studio Black" Clicked="OnVoltarPerfilClicked"
+            <Button Text="{Binding VoltarTexto}" Clicked="OnVoltarPerfilClicked"
                     BackgroundColor="Transparent" TextColor="White"
                     BorderColor="#444444" BorderWidth="1" CornerRadius="8"
                     MinimumHeightRequest="40" Padding="12,0" FontSize="13" />
@@ -99,7 +99,7 @@
                 <VerticalStackLayout Spacing="10" IsVisible="{Binding Etapa2Visivel}">
                     <Label Text="02 · PROFISSIONAL" FontSize="11" FontAttributes="Bold" TextColor="#f5a623" />
                     <Label Text="Quem você gostaria que atendesse você?" FontSize="18" FontAttributes="Bold" TextColor="White" />
-                    <Label Text="Escolha um profissional do Studio Black." FontSize="12" TextColor="#cccccc" />
+                    <Label Text="{Binding SubtituloProfissional}" FontSize="12" TextColor="#cccccc" />
                     <VerticalStackLayout Spacing="10" BindableLayout.ItemsSource="{Binding OpcoesProfissionais}">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="models:OpcaoProfissional">
@@ -231,8 +231,8 @@
                         </Border.Shadow>
                         <VerticalStackLayout Spacing="10">
                             <Label Text="TONSORIUM RESUMO DO AGENDAMENTO" FontSize="10" TextColor="#aaaaaa" />
-                            <Label Text="Studio Black" FontSize="18" FontAttributes="Bold" TextColor="White" />
-                            <Label Text="Av. Paulista, 1450 · São Paulo - SP" FontSize="12" TextColor="#cccccc" />
+                            <Label Text="{Binding Perfil.Nome}" FontSize="18" FontAttributes="Bold" TextColor="White" />
+                            <Label Text="{Binding EnderecoResumo}" FontSize="12" TextColor="#cccccc" />
                             <Label FontSize="13">
                                 <Label.FormattedText>
                                     <FormattedString>

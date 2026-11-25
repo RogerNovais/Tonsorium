@@ -3,30 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tonsorium.Views.LoginEmpresa">
 
-  <ScrollView>
-
-
-        
-        
-
+    <ScrollView>
         <VerticalStackLayout BackgroundColor="Gray">
 
             <Frame BackgroundColor="Gray">
                 <VerticalStackLayout >
-
-                    <HorizontalStackLayout>
-                        <Image Source="icone_seta.png"
-                               HeightRequest="30"  
-                               WidthRequest="30"/>
-                            <Image.GestureRecognizers>
-                                <!-- O evento Tapped é disparado quando o usuário clica na imagem -->
-                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
-                            </Image.GestureRecognizers>
-
-                        </HorizontalStackLayout>
-
                     <HorizontalStackLayout HorizontalOptions="Center" Spacing="15">
-
                         <Label Text="Acessar Conta"
                            TextColor="Black"
                            FontSize="35"
@@ -36,7 +18,6 @@
                                HeightRequest="90"  
                                WidthRequest="90"
                                VerticalOptions="Center"/>
-                    
                     </HorizontalStackLayout>
 
 
@@ -45,7 +26,14 @@
                            WidthRequest="150"
                            HorizontalOptions="Center" 
                            VerticalOptions="Center" 
-                           Margin="40,40,40,0"/>
+                           Margin="40,40,40,0">
+                        
+                        <Image.GestureRecognizers>
+                            <!-- O evento Tapped é disparado quando o usuário clica na imagem -->
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1" />
+                        </Image.GestureRecognizers>
+                    </Image>
+
                 </VerticalStackLayout>
             </Frame>
 
@@ -55,22 +43,10 @@
                    BackgroundColor="Gray">
                 <VerticalStackLayout Spacing="10">
 
-                    <Border StrokeShape="RoundRectangle 20"
-                            Stroke="White"
-                            StrokeThickness="1"
-                            HeightRequest="50"
-                            WidthRequest="400"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center"
-                            Padding="10,0">
-
-                        <Entry Placeholder="Digite seu nome"
-                               BackgroundColor="White"  
-                               x:Name="NomeEntry"/>
-
-                    </Border>
-
-                        
+                    <Label Text="Nome" />
+                    <Entry Placeholder="Digite seu nome"
+                           BackgroundColor="White"
+                           x:Name="NomeEntry" />
 
 
                     <Label Text="E-mail"/>
@@ -116,17 +92,16 @@
                     TextTransform="Uppercase"
                     FontSize="20"/>
 
-            <Label 
-                Text="Esqueceu a senha?"
-                TextDecorations="Underline"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
-
-            <Label.GestureRecognizers>
-                    <!-- O evento Tapped é disparado quando o usuário clica na imagem -->
-               <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"/>
-            </Label.GestureRecognizers>
-
+            <Label Text="Esqueceu a senha?"
+                   TextDecorations="Underline"
+                   TextColor="Black"
+                   VerticalOptions="Center" 
+                   HorizontalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnEsqueceuSenhaTapped" />
+                </Label.GestureRecognizers>
+            </Label>
+            
         </VerticalStackLayout>
   </ScrollView>
 </ContentPage>

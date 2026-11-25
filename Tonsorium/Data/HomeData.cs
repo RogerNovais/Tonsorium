@@ -36,6 +36,7 @@ namespace Tonsorium.Data
                 new() { Nome = "Black House", Avaliacao = 4.9, Descricao = "Especialistas em diferentes texturas.", Tag = "Crespos" },
                 new() { Nome = "Studio Prime", Avaliacao = 4.8, Descricao = "Cortes e tratamentos personalizados.", Tag = "Ondulados" },
                 new() { Nome = "Urban Style", Avaliacao = 4.8, Descricao = "Estilo urbano e cortes contemporâneos.", Tag = "Lisos" },
+                new() { Nome = "Nail Studio", Avaliacao = 4.8, Descricao = "Manicure, pedicure e cuidados com as unhas.", Tag = "Manicure" },
             }
         },
         new()

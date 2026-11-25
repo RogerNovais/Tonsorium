@@ -1,22 +1,30 @@
+using System.Windows.Input;
 using Tonsorium.Data;
 
 namespace Tonsorium.Views;
 
 public partial class PerfilEstabelecimento : ContentPage
 {
-    public PerfilEstabelecimento()
+    public PerfilEstabelecimento(string nome)
     {
+        // Comandos ANTES do InitializeComponent
+        VoltarCommand = new Command(async () => await Navigation.PopAsync());
+        AgendarCommand = new Command(async () => await Navigation.PushAsync(new AgendamentoPage(Perfil.Nome)));
+
+        // Busca o perfil do próprio estabelecimento
+        Perfil = EstabelecimentosData.Obter(nome);
+
         InitializeComponent();
-        BindingContext = PerfilData.StudioBlack;
+        BindingContext = this;
     }
 
-    private void OnVoltarClicked(object sender, EventArgs e)
-    {
-        Navigation.PopAsync();
-    }
+    // Tipo totalmente qualificado: dentro de Tonsorium.Views, o nome simples aponta para esta página
+    public Tonsorium.Models.PerfilEstabelecimento Perfil { get; }
 
-    private void OnAgendarClicked(object sender, EventArgs e)
-    {
-        Navigation.PushAsync(new AgendamentoPage());
-    }
+    public ICommand VoltarCommand { get; }
+    public ICommand AgendarCommand { get; }
+
+    public string LocalizacaoCompleta => $"{Perfil.LocalizacaoEndereco} · {Perfil.LocalizacaoCidade}";
+    public string FuncionamentoCompleto => $"{Perfil.FuncionamentoDias} · {Perfil.FuncionamentoHoras}";
+    public string EspecialidadesTexto => string.Join(" · ", Perfil.Especialidades);
 }

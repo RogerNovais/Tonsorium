@@ -11,6 +11,9 @@ public partial class AgendamentoPage : ContentPage
         { "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho",
           "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" };
 
+    private readonly Tonsorium.Models.PerfilEstabelecimento perfil;
+    private readonly TimeSpan fechamento;
+
     private int etapaAtual = 1;
     private DateTime mesExibido;
     private Servico? servicoSelecionado;
@@ -18,8 +21,13 @@ public partial class AgendamentoPage : ContentPage
     private DateTime? dataSelecionada;
     private string? horarioSelecionado;
 
-    public AgendamentoPage()
+    public AgendamentoPage() : this("Studio Black") { }
+
+    public AgendamentoPage(string nomeEstabelecimento)
     {
+        perfil = EstabelecimentosData.Obter(nomeEstabelecimento);
+        fechamento = AgendamentoRepositorio.FechamentoDe(perfil.FuncionamentoHoras);
+
         // Comandos ANTES do InitializeComponent
         SelecionarServicoCommand = new Command<string>(SelecionarServico);
         SelecionarProfissionalCommand = new Command<string>(SelecionarProfissional);
@@ -40,6 +48,12 @@ public partial class AgendamentoPage : ContentPage
         ReconstruirHorarios();
         AtualizarVisibilidade();
     }
+
+    public Tonsorium.Models.PerfilEstabelecimento Perfil => perfil;
+
+    public string VoltarTexto => $"← {perfil.Nome}";
+    public string SubtituloProfissional => $"Escolha um profissional do {perfil.Nome}.";
+    public string EnderecoResumo => $"{perfil.LocalizacaoEndereco} · {perfil.LocalizacaoCidade}";
 
     public ICommand SelecionarServicoCommand { get; }
     public ICommand SelecionarProfissionalCommand { get; }
@@ -82,20 +96,21 @@ public partial class AgendamentoPage : ContentPage
     public string LegendaHorarios =>
         dataSelecionada is null
             ? "Selecione uma data para ver os horários."
-            : "Apagados: já passaram, estão ocupados ou ultrapassam o fechamento (21:00).";
+            : $"Apagados: já passaram, estão ocupados ou ultrapassam o fechamento ({fechamento:hh\\:mm}).";
 
+    // Serviços e equipe vêm do estabelecimento escolhido
     private void ReconstruirOpcoes()
     {
         var icones = AgendamentoData.IconesServicos;
 
-        OpcoesServico = AgendamentoData.Servicos.Select((s, i) => new OpcaoServico
+        OpcoesServico = perfil.Servicos.Select((s, i) => new OpcaoServico
         {
             Icone = i < icones.Length ? icones[i] : "✂",
             Servico = s,
             Selecionado = s.Nome == servicoSelecionado?.Nome
         }).ToList();
 
-        OpcoesProfissionais = AgendamentoData.Profissionais.Select(p => new OpcaoProfissional
+        OpcoesProfissionais = perfil.Equipe.Select(p => new OpcaoProfissional
         {
             Profissional = p,
             Selecionado = p.Nome == profissionalSelecionado?.Nome
@@ -109,7 +124,6 @@ public partial class AgendamentoPage : ContentPage
             .Select(h => (Hora: h, Motivo: MotivoDoHorario(h)))
             .ToList();
 
-        // Se o horário escolhido virou indisponível, a seleção é desfeita
         if (horarioSelecionado is not null &&
             itens.Any(i => i.Hora == horarioSelecionado && i.Motivo is not null))
         {
@@ -137,31 +151,25 @@ public partial class AgendamentoPage : ContentPage
         return AgendamentoRepositorio.MotivoIndisponivel(
             profissionalSelecionado,
             AgendamentoRepositorio.MinutosDe(servicoSelecionado.Duracao),
-            inicio);
+            inicio,
+            fechamento);
     }
-
-    // Calendário: bloqueia dias passados e meses anteriores ao atual
 
     public string MesAnoTitulo => $"{Meses[mesExibido.Month - 1]} {mesExibido.Year}";
 
-   
-
-    // Seleções
-
     private void SelecionarServico(string nome)
     {
-        servicoSelecionado = AgendamentoData.Servicos.First(s => s.Nome == nome);
+        servicoSelecionado = perfil.Servicos.First(s => s.Nome == nome);
         ReconstruirOpcoes();
-        ReconstruirHorarios(); // a duração do serviço muda os horários livres
+        ReconstruirHorarios();
     }
 
     private void SelecionarProfissional(string nome)
     {
-        profissionalSelecionado = AgendamentoData.Profissionais.First(p => p.Nome == nome);
+        profissionalSelecionado = perfil.Equipe.First(p => p.Nome == nome);
         ReconstruirOpcoes();
-        ReconstruirHorarios(); // agenda é por profissional
+        ReconstruirHorarios();
     }
-
 
     public string DataTexto => dataSelecionada?.ToString("dd/MM/yyyy") ?? "-";
 
@@ -181,7 +189,6 @@ public partial class AgendamentoPage : ContentPage
         ReconstruirHorarios();
     }
 
-    // Um dia só fica disponível se ainda houver algum horário possível nele
     private bool DiaTemHorario(DateTime data)
     {
         if (data.Date < DateTime.Today)
@@ -190,13 +197,12 @@ public partial class AgendamentoPage : ContentPage
         if (data.Date > DateTime.Today)
             return true;
 
-        // Hoje: precisa existir um horário futuro que caiba antes do fechamento
         var agora = DateTime.Now;
         return AgendamentoData.Horarios.Any(h =>
         {
             var inicio = data.Date.Add(TimeSpan.Parse(h));
             return inicio > agora &&
-                   inicio.TimeOfDay.Add(TimeSpan.FromMinutes(30)) <= AgendamentoRepositorio.Fechamento;
+                   inicio.TimeOfDay.Add(TimeSpan.FromMinutes(30)) <= fechamento;
         });
     }
 
@@ -234,7 +240,6 @@ public partial class AgendamentoPage : ContentPage
     {
         var data = DateTime.ParseExact(parametro, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 
-        // Trava: dia sem horário possível não pode ser selecionado
         if (!DiaTemHorario(data))
             return;
 
@@ -245,7 +250,6 @@ public partial class AgendamentoPage : ContentPage
     }
 
     // Stepper de etapas
-
     public bool Etapa1Visivel => etapaAtual == 1;
     public bool Etapa2Visivel => etapaAtual == 2;
     public bool Etapa3Visivel => etapaAtual == 3;
@@ -332,7 +336,6 @@ public partial class AgendamentoPage : ContentPage
         }
 
         var inicio = dataSelecionada.Value.Date.Add(TimeSpan.Parse(horarioSelecionado));
-
         var agendamento = new Agendamento
         {
             Servico = servicoSelecionado,
@@ -342,11 +345,10 @@ public partial class AgendamentoPage : ContentPage
             Total = servicoSelecionado.Preco
         };
 
-        if (!AgendamentoRepositorio.Criar(agendamento, out var erro))
+        if (!AgendamentoRepositorio.Criar(agendamento, fechamento, out var erro))
         {
             await DisplayAlert("Horário indisponível",
                 erro ?? "Esse horário não está mais disponível.", "OK");
-
             horarioSelecionado = null;
             etapaAtual = 4;
             ReconstruirHorarios();
@@ -355,6 +357,7 @@ public partial class AgendamentoPage : ContentPage
         }
 
         await DisplayAlert("Agendamento confirmado",
+            $"{perfil.Nome}\n" +
             $"{agendamento.Servico.Nome} com {agendamento.Profissional.Nome}\n" +
             $"{inicio:dd/MM/yyyy} às {inicio:HH:mm}\n" +
             $"Total: {agendamento.Total}",

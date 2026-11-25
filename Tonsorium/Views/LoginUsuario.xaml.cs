@@ -60,4 +60,9 @@ public partial class LoginUsuario : ContentPage
     {
         Navigation.PushAsync(new BoasVindas());
     }
+
+    private async void OnEsqueceuSenhaTapped(object sender, TappedEventArgs e)
+    {
+        await Navigation.PushAsync(new EsqueceuSenha());
+    }
 }

@@ -48,10 +48,16 @@ public partial class PaginaUsuario : ContentPage
         }
     }
 
-    private void AbrirPerfil(string nomeEstabelecimento)
+    private async void AbrirPerfil(string nomeEstabelecimento)
     {
-        // Por enquanto todos os cards abrem o Studio Black (único mock no PerfilData).
-        Navigation.PushAsync(new PerfilEstabelecimento());
+        if (!EstabelecimentosData.Existe(nomeEstabelecimento))
+        {
+            await DisplayAlert("Perfil indisponível",
+                $"Não encontramos o perfil de \"{nomeEstabelecimento}\".", "OK");
+            return;
+        }
+
+        await Navigation.PushAsync(new PerfilEstabelecimento(nomeEstabelecimento));
     }
 
     private void AplicarFiltro(string chipTitulo)
@@ -94,6 +100,42 @@ public partial class PaginaUsuario : ContentPage
 
     private void OnBuscarClicked(object sender, EventArgs e)
     {
-        // TODO: navegar para tela de resultados com BuscaEntry.Text
+        BuscaEntry.Unfocus();
+        var termo = BuscaEntry.Text?.Trim() ?? "";
+
+        // Campo vazio: volta para a home completa
+        if (string.IsNullOrWhiteSpace(termo))
+        {
+            filtroAtual = null;
+            SecoesVisiveis = todasSecoes;
+            return;
+        }
+
+        filtroAtual = null;
+
+        // Busca pelo nome e, também, pela tag (ex.: "Manicure", "Cacheados")
+        var encontrados = todasSecoes
+            .SelectMany(s => s.Itens)
+            .Where(x => x.Nome.Contains(termo, StringComparison.OrdinalIgnoreCase)
+                     || (x.Tag ?? "").Contains(termo, StringComparison.OrdinalIgnoreCase))
+            .DistinctBy(x => x.Nome)
+            .ToList();
+
+        SecoesVisiveis = new List<SecaoCarrossel>
+        {
+            new()
+            {
+                Titulo = $"Resultados: {termo}",
+                Subtitulo = encontrados.Count > 0
+                    ? $"{encontrados.Count} estabelecimento(s) encontrado(s)"
+                    : $"Não encontramos nenhum estabelecimento para \"{termo}\".",
+                Itens = encontrados
+            }
+        };
+    }
+
+    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+        Navigation.PushAsync(new BoasVindas());
     }
 }

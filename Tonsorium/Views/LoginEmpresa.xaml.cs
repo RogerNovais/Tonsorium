@@ -56,13 +56,14 @@ public partial class LoginEmpresa : ContentPage
         await Navigation.PushAsync(new PaginaEmpresa());
     }
 
-    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
-    {
-        Navigation.PushAsync(new BoasVindas());
-    }
-
     private void TapGestureRecognizer_Tapped_1(object sender, TappedEventArgs e)
     {
-        Navigation.PushAsync(new PaginaCadastro());
+        Navigation.PushAsync(new BoasVindas());
+
+    }
+
+    private async void OnEsqueceuSenhaTapped(object sender, TappedEventArgs e)
+    {
+        await Navigation.PushAsync(new EsqueceuSenha());
     }
 }

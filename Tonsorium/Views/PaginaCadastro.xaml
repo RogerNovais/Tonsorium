@@ -1,12 +1,204 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Tonsorium.Models"
              x:Class="Tonsorium.Views.PaginaCadastro"
-             Title="PaginaCadastro">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Criar Conta | TONSORIUM"
+             BackgroundColor="Black">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="#111111" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="PlaceholderColor" Value="#666666" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="MinimumHeightRequest" Value="44" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="18">
+
+            <Button Text="← Voltar" Command="{Binding VoltarCommand}"
+                    BackgroundColor="Transparent" TextColor="White"
+                    BorderColor="#444444" BorderWidth="1" CornerRadius="8"
+                    MinimumHeightRequest="40" Padding="12,0" FontSize="13"
+                    HorizontalOptions="Start" />
+
+            <VerticalStackLayout Spacing="6" Padding="0,8">
+                <Label Text="TONSORIUM" FontSize="11" FontAttributes="Bold"
+                       TextColor="#f5a623" HorizontalTextAlignment="Center" />
+                <Label Text="Crie sua conta e faça parte do Tonsorium." FontSize="24"
+                       FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+
+            <!-- Alternância Cliente / Empresa -->
+            <Border BackgroundColor="#111111" Stroke="#333333" StrokeShape="RoundRectangle 999" Padding="4">
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="4">
+                    <Border BackgroundColor="{Binding CorTabCliente}" Stroke="Transparent"
+                            StrokeShape="RoundRectangle 999" Padding="0,10">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AlternarTipoCommand}" CommandParameter="Cliente" />
+                        </Border.GestureRecognizers>
+                        <Label Text="Cliente" FontAttributes="Bold" HorizontalTextAlignment="Center"
+                               TextColor="{Binding CorTextoTabCliente}" />
+                    </Border>
+                    <Border Grid.Column="1" BackgroundColor="{Binding CorTabEmpresa}" Stroke="Transparent"
+                            StrokeShape="RoundRectangle 999" Padding="0,10">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AlternarTipoCommand}" CommandParameter="Empresa" />
+                        </Border.GestureRecognizers>
+                        <Label Text="Empresa" FontAttributes="Bold" HorizontalTextAlignment="Center"
+                               TextColor="{Binding CorTextoTabEmpresa}" />
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- FORMULÁRIO DO CLIENTE -->
+            <VerticalStackLayout Spacing="14" IsVisible="{Binding EhCliente}">
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="NOME" FontSize="10" FontAttributes="Bold" TextColor="#aaaaaa" />
+                        <Entry Text="{Binding Nome}" Placeholder="Seu nome" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1" Spacing="6">
+                        <Label Text="SOBRENOME" FontSize="10" FontAttributes="Bold" TextColor="#aaaaaa" />
+                        <Entry Text="{Binding Sobrenome}" Placeholder="Seu sobrenome" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Label Text="GÊNERO" FontSize="10" FontAttributes="Bold" TextColor="#aaaaaa" />
+                <FlexLayout Wrap="Wrap" Direction="Row" BindableLayout.ItemsSource="{Binding GenerosVisiveis}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:OpcaoChip">
+                            <Border Stroke="{Binding CorBorda}" BackgroundColor="{Binding CorFundo}"
+                                    StrokeShape="RoundRectangle 999" Padding="14,8" Margin="0,0,8,8">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SelecionarGeneroCommand}"
+                                        CommandParameter="{Binding Texto}" />
+                                </Border.GestureRecognizers>
+                                <Label Text="{Binding Texto}" FontSize="13" TextColor="{Binding CorTexto}" />
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+
+                <Label Text="TIPO DE CABELO" FontSize="10" FontAttributes="Bold" TextColor="#aaaaaa" />
+                <FlexLayout Wrap="Wrap" Direction="Row" BindableLayout.ItemsSource="{Binding CabelosVisiveis}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:OpcaoChip">
+                            <Border Stroke="{Binding CorBorda}" BackgroundColor="{Binding CorFundo}"
+                                    StrokeShape="RoundRectangle 999" Padding="14,8" Margin="0,0,8,8">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SelecionarCabeloCommand}"
+                                        CommandParameter="{Binding Texto}" />
+                                </Border.GestureRecognizers>
+                                <Label Text="{Binding Texto}" FontSize="13" TextColor="{Binding CorTexto}" />
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+
+                <Label Text="DATA DE NASCIMENTO" FontSize="10" FontAttributes="Bold" TextColor="#aaaaaa" />
+                <Entry x:Name="CampoData" Text="{Binding DataNascimento}" Placeholder="dd/mm/aaaa"
+                       Keyboard="Numeric" MaxLength="10" TextChanged="OnDataTextChanged" />
+                <Label x:Name="AvisoData" Text="Data inválida. Use dd/mm/aaaa, uma data real e não futura."
+                       FontSize="11" TextColor="#ff6b6b" IsVisible="False" />
+
+                <Label Text="TELEFONE" FontSize="10" FontAttributes="Bold" TextColor="#aaaaaa" />
+                <Entry Text="{Binding Telefone}" Placeholder="(00) 00000-0000" Keyboard="Telephone" />
+
+                <Label Text="E-MAIL" FontSize="10" FontAttributes="Bold" TextColor="#aaaaaa" />
+                <Entry Text="{Binding Email}" Placeholder="seu@email.com" Keyboard="Email"
+                       TextChanged="OnEmailTextChanged" />
+                <Label x:Name="AvisoEmail" Text="E-mail inválido. Use o formato nome@dominio.com."
+                       FontSize="11" TextColor="#ff6b6b" IsVisible="False" />
+
+                <Label Text="CPF" FontSize="10" FontAttributes="Bold" TextColor="#aaaaaa" />
+                <Entry x:Name="CampoCpf" Text="{Binding Cpf}" Placeholder="000.000.000-00"
+                       Keyboard="Numeric" MaxLength="14" TextChanged="OnCpfTextChanged" />
+                <Label x:Name="AvisoCpf" Text="CPF inválido. Verifique os números digitados."
+                       FontSize="11" TextColor="#ff6b6b" IsVisible="False" />
+
+                <Label Text="SENHA" FontSize="10" FontAttributes="Bold" TextColor="#aaaaaa" />
+                <Entry Text="{Binding Senha}" Placeholder="Mínimo 6 caracteres" IsPassword="True"
+                       TextChanged="OnSenhaTextChanged" />
+                <Label x:Name="AvisoSenha"
+                       Text="Use 6+ caracteres, com maiúscula, minúscula, número e caractere especial."
+                       FontSize="11" TextColor="#ff6b6b" IsVisible="False" />
+            </VerticalStackLayout>
+
+            <!-- FORMULÁRIO DA EMPRESA -->
+            <VerticalStackLayout Spacing="14" IsVisible="{Binding EhEmpresa}">
+
+                <Label Text="CNPJ" FontSize="10" FontAttributes="Bold" TextColor="#aaaaaa" />
+                <Entry Text="{Binding Cnpj}" Placeholder="00.000.000/0000-00" Keyboard="Numeric" />
+
+                <Label Text="NOME DA EMPRESA" FontSize="10" FontAttributes="Bold" TextColor="#aaaaaa" />
+                <Entry Text="{Binding NomeEmpresa}" Placeholder="Nome do estabelecimento" />
+
+                <Label Text="E-MAIL" FontSize="10" FontAttributes="Bold" TextColor="#aaaaaa" />
+                <Entry Text="{Binding EmailEmpresa}" Placeholder="contato@empresa.com" Keyboard="Email"
+                       TextChanged="OnEmailEmpresaTextChanged" />
+                <Label x:Name="AvisoEmailEmpresa" Text="E-mail inválido. Use o formato nome@dominio.com."
+                       FontSize="11" TextColor="#ff6b6b" IsVisible="False" />
+
+                <Label Text="TELEFONE" FontSize="10" FontAttributes="Bold" TextColor="#aaaaaa" />
+                <Entry Text="{Binding TelefoneEmpresa}" Placeholder="(00) 00000-0000" Keyboard="Telephone" />
+
+                <Label Text="LOCALIZAÇÃO" FontSize="10" FontAttributes="Bold" TextColor="#aaaaaa" />
+                <Entry Text="{Binding Localizacao}" Placeholder="Rua, número, bairro e cidade" />
+
+                <Label Text="PÚBLICO-ALVO" FontSize="10" FontAttributes="Bold" TextColor="#aaaaaa" />
+                <FlexLayout Wrap="Wrap" Direction="Row" BindableLayout.ItemsSource="{Binding PublicosVisiveis}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:OpcaoChip">
+                            <Border Stroke="{Binding CorBorda}" BackgroundColor="{Binding CorFundo}"
+                                    StrokeShape="RoundRectangle 999" Padding="14,8" Margin="0,0,8,8">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SelecionarPublicoCommand}"
+                                        CommandParameter="{Binding Texto}" />
+                                </Border.GestureRecognizers>
+                                <Label Text="{Binding Texto}" FontSize="13" TextColor="{Binding CorTexto}" />
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+
+                <Label Text="SENHA" FontSize="10" FontAttributes="Bold" TextColor="#aaaaaa" />
+                <Entry Text="{Binding SenhaEmpresa}" Placeholder="Mínimo 6 caracteres" IsPassword="True"
+                       TextChanged="OnSenhaEmpresaTextChanged" />
+                <Label x:Name="AvisoSenhaEmpresa"
+                       Text="Use 6+ caracteres, com maiúscula, minúscula, número e caractere especial."
+                       FontSize="11" TextColor="#ff6b6b" IsVisible="False" />
+
+                <Label Text="DESCRIÇÃO" FontSize="10" FontAttributes="Bold" TextColor="#aaaaaa" />
+                <Editor TextChanged="OnDescricaoTextChanged" MaxLength="300"
+                        Placeholder="Conte um pouco sobre o seu estabelecimento"
+                        PlaceholderColor="#666666" TextColor="White" BackgroundColor="#111111"
+                        HeightRequest="120" />
+                <Label Text="{Binding ContadorDescricao}" FontSize="11" TextColor="#aaaaaa"
+                       HorizontalTextAlignment="End" />
+            </VerticalStackLayout>
+
+            <Button Text="Criar Conta" Command="{Binding CriarContaCommand}"
+                    BackgroundColor="White" TextColor="Black" CornerRadius="8"
+                    MinimumHeightRequest="48" FontSize="15" FontAttributes="Bold" Margin="0,8,0,0" />
+
+            <VerticalStackLayout Spacing="4" Padding="0,16">
+                <Label Text="TONSORIUM" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="Center" />
+                <Label Text="Conectando você ao seu próximo estilo." FontSize="12" TextColor="#aaaaaa"
+                       HorizontalTextAlignment="Center" />
+                <Label Text="© 2026 TONSORIUM. Todos os direitos reservados." FontSize="11" TextColor="#aaaaaa"
+                       HorizontalTextAlignment="Center" Margin="0,8,0,0" />
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

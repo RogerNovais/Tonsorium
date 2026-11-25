@@ -6,46 +6,38 @@
   <ScrollView>
     <VerticalStackLayout BackgroundColor="Gray">
 
-        <Frame BackgroundColor="Gray">
-            <VerticalStackLayout >
+            <Frame BackgroundColor="Gray">
+                <VerticalStackLayout >
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="15">
+                        <Label Text="Acessar Conta"
+                               TextColor="Black"
+                               FontSize="35"
+                               VerticalOptions="Center"/>
 
-                <HorizontalStackLayout>
-                    <Image Source="icone_seta.png"
-                           HeightRequest="30"  
-                           WidthRequest="30"/>
-                    <Image.GestureRecognizers>
-                        <!-- O evento Tapped é disparado quando o usuário clica na imagem -->
-                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
-                    </Image.GestureRecognizers>
-                </HorizontalStackLayout>
-
-                <HorizontalStackLayout HorizontalOptions="Center" Spacing="15">
-
-                    <Label Text="Acessar Conta"
-                           TextColor="Black"
-                           FontSize="35"
-                           VerticalOptions="Center"/>
+                        <Image Source="desenho_usuario.png"
+                               HeightRequest="90"  
+                               WidthRequest="90"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
 
 
-                    <Image Source="desenho_usuario.png"
-                           HeightRequest="90"  
-                           WidthRequest="90"
-                           VerticalOptions="Center"/>
+                    <Image Source="image_tonsorium.png"
+                           HeightRequest="150"
+                           WidthRequest="150"
+                           HorizontalOptions="Center" 
+                           VerticalOptions="Center" 
+                           Margin="40,40,40,0">
+                    
+                        <Image.GestureRecognizers>
+                            <!-- O evento Tapped é disparado quando o usuário clica na imagem -->
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                        </Image.GestureRecognizers>
+                    </Image>
 
-                </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
 
-
-                <Image Source="image_tonsorium.png"
-                       HeightRequest="150"
-                       WidthRequest="150"
-                       HorizontalOptions="Center" 
-                       VerticalOptions="Center" 
-                       Margin="40,40,40,0"/>
-
-            </VerticalStackLayout>
-        </Frame>
-
-        <Frame Padding="10"
+            <Frame Padding="10"
                Margin="10"
                CornerRadius="30"
                BackgroundColor="Gray">
@@ -99,11 +91,16 @@
                 TextTransform="Uppercase"
                 FontSize="20"/>
 
-        <Label 
-            Text="Esqueceu a senha?"
-            TextDecorations="Underline"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+            <Label Text="Esqueceu a senha?"
+                   TextDecorations="Underline"
+                   TextColor="Black"
+                   VerticalOptions="Center" 
+                   HorizontalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnEsqueceuSenhaTapped" />
+                </Label.GestureRecognizers>
+            </Label>
+        
+        </VerticalStackLayout>
   </ScrollView>
 </ContentPage>

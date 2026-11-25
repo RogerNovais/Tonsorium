@@ -1,12 +1,194 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Tonsorium.Models"
              x:Class="Tonsorium.Views.PaginaEmpresa"
-             Title="PaginaEmpresa">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Painel | TONSORIUM"
+             BackgroundColor="Black">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="20">
+
+            <!-- Topo: marca + avatar -->
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                <Border BackgroundColor="#111111" Stroke="#f5a623" StrokeShape="RoundRectangle 10"
+                        WidthRequest="36" HeightRequest="36">
+                    <Label Text="T" FontSize="16" FontAttributes="Bold" TextColor="#f5a623"
+                           HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Border>
+                <Label Grid.Column="1" Text="TONSORIUM" FontAttributes="Bold" TextColor="White"
+                       VerticalOptions="Center" />
+                <Border Grid.Column="2" BackgroundColor="#111111" Stroke="#555555" StrokeShape="RoundRectangle 999"
+                        WidthRequest="36" HeightRequest="36">
+                    <Label Text="GP" FontSize="12" FontAttributes="Bold" TextColor="White"
+                           HorizontalOptions="Center" VerticalOptions="Center" />
+                </Border>
+            </Grid>
+
+            <!-- Navegação em ícones (substitui a barra lateral do HTML) -->
+            <Border BackgroundColor="#111111" Stroke="#333333" StrokeShape="RoundRectangle 12" Padding="6">
+                <Grid ColumnDefinitions="*,*,*,*,*">
+                    <Label Grid.Column="0" Text="⌂" FontSize="18" TextColor="#f5a623" HorizontalTextAlignment="Center" />
+                    <Label Grid.Column="1" Text="▣" FontSize="18" TextColor="#888888" HorizontalTextAlignment="Center" />
+                    <Label Grid.Column="2" Text="◒" FontSize="18" TextColor="#888888" HorizontalTextAlignment="Center" />
+                    <Label Grid.Column="3" Text="♙" FontSize="18" TextColor="#888888" HorizontalTextAlignment="Center" />
+                    <Label Grid.Column="4" Text="⚙" FontSize="18" TextColor="#888888" HorizontalTextAlignment="Center" />
+                </Grid>
+            </Border>
+
+            <!-- Saudação e status -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="PAINEL DE CONTROLE" FontSize="11" FontAttributes="Bold" TextColor="#f5a623" />
+                <Label Text="{Binding Saudacao}" FontSize="26" FontAttributes="Bold" TextColor="White" />
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Border Stroke="#4cd964" BackgroundColor="Black" StrokeShape="RoundRectangle 999"
+                            Padding="10,4" VerticalOptions="Center">
+                        <Label Text="● Salão aberto" FontSize="11" TextColor="#4cd964" />
+                    </Border>
+                    <Label Grid.Column="1" Text="{Binding DataAtual}" FontSize="11" TextColor="#aaaaaa"
+                           HorizontalTextAlignment="End" VerticalOptions="Center" />
+                </Grid>
+            </VerticalStackLayout>
+
+            <!-- Estabelecimento -->
+            <Border BackgroundColor="Black" Stroke="#555555" StrokeShape="RoundRectangle 12" Padding="16">
+                <Border.Shadow>
+                    <Shadow Brush="White" Opacity="0.9" Radius="3.5" Offset="0,0" />
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="SEU ESTABELECIMENTO" FontSize="10" TextColor="#aaaaaa" />
+                    <Label Text="{Binding NomeEstabelecimento}" FontSize="20" FontAttributes="Bold" TextColor="White" />
+                    <Label Text="{Binding AreaEstabelecimento}" FontSize="12" TextColor="#f5a623" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Agendamentos de hoje -->
+            <VerticalStackLayout Spacing="10">
+                <Label Text="HOJE" FontSize="11" FontAttributes="Bold" TextColor="#f5a623" />
+                <Label Text="Agendamentos" FontSize="20" FontAttributes="Bold" TextColor="White" />
+
+                <VerticalStackLayout Spacing="12" BindableLayout.ItemsSource="{Binding AgendamentosHoje}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:AgendamentoHoje">
+                            <Border BackgroundColor="#111111" Stroke="#555555" StrokeShape="RoundRectangle 12" Padding="16">
+                                <VerticalStackLayout Spacing="12">
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                        <VerticalStackLayout Spacing="2">
+                                            <Label Text="{Binding Data}" FontSize="12" TextColor="#aaaaaa" />
+                                            <Label Text="{Binding HoraDuracao}" FontSize="18" FontAttributes="Bold" TextColor="White" />
+                                        </VerticalStackLayout>
+                                        <Border Grid.Column="1" BackgroundColor="Black" Stroke="{Binding CorStatus}"
+                                                StrokeShape="RoundRectangle 999" Padding="10,4" VerticalOptions="Start">
+                                            <Label Text="{Binding Status}" FontSize="11" TextColor="{Binding CorStatus}" />
+                                        </Border>
+                                    </Grid>
+
+                                    <BoxView HeightRequest="1" Color="#333333" />
+
+                                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                        <Border BackgroundColor="Black" Stroke="#f5a623" StrokeShape="RoundRectangle 999"
+                                                WidthRequest="40" HeightRequest="40">
+                                            <Label Text="{Binding Iniciais}" FontSize="12" FontAttributes="Bold" TextColor="White"
+                                                   HorizontalOptions="Center" VerticalOptions="Center" />
+                                        </Border>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                            <Label Text="{Binding Cliente}" FontSize="15" FontAttributes="Bold" TextColor="White" />
+                                            <Label Text="{Binding Servico}" FontSize="12" TextColor="#cccccc" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <!-- Estatísticas -->
+            <VerticalStackLayout Spacing="10">
+                <Label Text="ESTATÍSTICAS" FontSize="11" FontAttributes="Bold" TextColor="#f5a623" />
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                    <Label Text="Desempenho" FontSize="20" FontAttributes="Bold" TextColor="White" />
+                    <Label Grid.Column="1" Text="Este mês ▾" FontSize="12" TextColor="#cccccc" VerticalOptions="Center" />
+                </Grid>
+                <Label Text="Visão geral" FontSize="12" TextColor="#aaaaaa" />
+
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                    <Border Grid.Column="0" BackgroundColor="#111111" Stroke="#333333" StrokeShape="RoundRectangle 10" Padding="12">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Agendamentos" FontSize="11" TextColor="#aaaaaa" />
+                            <Label Text="{Binding TotalAgendamentos}" FontSize="22" FontAttributes="Bold" TextColor="White" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="1" BackgroundColor="#111111" Stroke="#333333" StrokeShape="RoundRectangle 10" Padding="12">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Clientes" FontSize="11" TextColor="#aaaaaa" />
+                            <Label Text="{Binding TotalClientes}" FontSize="22" FontAttributes="Bold" TextColor="White" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="2" BackgroundColor="#111111" Stroke="#333333" StrokeShape="RoundRectangle 10" Padding="12">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Avaliação" FontSize="11" TextColor="#aaaaaa" />
+                            <Label Text="{Binding NotaMedia}" FontSize="22" FontAttributes="Bold" TextColor="#f5a623" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <!-- Gráfico: clientes atendidos por mês -->
+                <Border BackgroundColor="#111111" Stroke="#333333" StrokeShape="RoundRectangle 12" Padding="16" Margin="0,8,0,0">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="CLIENTES ATENDIDOS POR MÊS" FontSize="10" FontAttributes="Bold" TextColor="#f5a623" />
+                        <GraphicsView Drawable="{Binding GraficoClientes}" HeightRequest="220" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Feedback -->
+            <VerticalStackLayout Spacing="10">
+                <Label Text="FEEDBACK" FontSize="11" FontAttributes="Bold" TextColor="#f5a623" />
+                <Label Text="Avaliações" FontSize="20" FontAttributes="Bold" TextColor="White" />
+
+                <Border BackgroundColor="Black" Stroke="#555555" StrokeShape="RoundRectangle 12" Padding="16">
+                    <Border.Shadow>
+                        <Shadow Brush="White" Opacity="0.9" Radius="3.5" Offset="0,0" />
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="{Binding UltimaAvaliacao.Estrelas}" FontSize="16" TextColor="#f5a623" />
+
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                            <Border BackgroundColor="#111111" Stroke="#f5a623" StrokeShape="RoundRectangle 999"
+                                    WidthRequest="36" HeightRequest="36">
+                                <Label Text="{Binding UltimaAvaliacao.Iniciais}" FontSize="11" FontAttributes="Bold"
+                                       TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                <Label Text="{Binding UltimaAvaliacao.Cliente}" FontSize="14" FontAttributes="Bold" TextColor="White" />
+                                <Label Text="{Binding UltimaAvaliacao.Data}" FontSize="11" TextColor="#aaaaaa" />
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <Label Text="{Binding UltimaAvaliacao.Texto}" FontSize="13" TextColor="#cccccc" />
+                        <Label Text="{Binding UltimaAvaliacao.RotuloAtendimento}" FontSize="12" FontAttributes="Bold" TextColor="#f5a623" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Button Text="Ver todas as avaliações →" BackgroundColor="Transparent" TextColor="White"
+                        BorderColor="#444444" BorderWidth="1" CornerRadius="8"
+                        MinimumHeightRequest="44" FontSize="14" />
+            </VerticalStackLayout>
+
+            <!-- Rodapé -->
+            <VerticalStackLayout Spacing="4" Padding="0,16">
+                <Label Text="TONSORIUM" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="Center" />
+                <Label Text="Conectando você ao seu próximo estilo." FontSize="12" TextColor="#aaaaaa"
+                       HorizontalTextAlignment="Center" />
+                <Label Text="© 2026 TONSORIUM. Todos os direitos reservados." FontSize="11" TextColor="#aaaaaa"
+                       HorizontalTextAlignment="Center" Margin="0,8,0,0" />
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

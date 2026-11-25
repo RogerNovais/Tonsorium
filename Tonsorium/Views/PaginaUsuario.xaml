@@ -12,7 +12,11 @@
 
             <!-- Navbar -->
             <Grid ColumnDefinitions="Auto,*,Auto">
-                <Label Text="TONSORIUM" TextColor="White" FontAttributes="Bold" />
+                <Label Text="TONSORIUM" TextColor="White" FontAttributes="Bold">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                    </Label.GestureRecognizers>
+                </Label>
                 <HorizontalStackLayout Grid.Column="2" Spacing="24">
                     <Label Text="Cabelos" TextColor="White">
                         <Label.GestureRecognizers>
@@ -24,7 +28,6 @@
                             <TapGestureRecognizer Command="{Binding AbrirUtensiliosCommand}" />
                         </Label.GestureRecognizers>
                     </Label>
-                    <Label Text="Suporte" TextColor="White" />
                 </HorizontalStackLayout>
             </Grid>
 
@@ -43,7 +46,8 @@
                                 BackgroundColor="#f2f2f2" Margin="4">
                             <Entry x:Name="BuscaEntry" Placeholder="Buscar"
                                    PlaceholderColor="Black"
-                                   VerticalOptions="Center" FontSize="15" />
+                                   VerticalOptions="Center" FontSize="15"
+                                   Completed="OnBuscarClicked" />
                         </Border>
                         <Button Grid.Column="1" Text="Buscar" Clicked="OnBuscarClicked"
                                 BackgroundColor="#1a1a1a" TextColor="White"
